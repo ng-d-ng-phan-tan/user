@@ -38,7 +38,10 @@ class UserInfoController extends Controller
         ]);
 
         if ($query) {
-            $response = new ResponseMsg("200", "Created", $request->input());
+            $response = new ResponseMsg("201", "Created", $request->input());
+            return response()->json(($response));
+        } else {
+            $response = new ResponseMsg("503", "Service Unavailable", null);
             return response()->json(($response));
         }
     }
@@ -48,6 +51,9 @@ class UserInfoController extends Controller
         $query = DB::table($this->table)->where('user_id', '=', $request->input('user_id'))->get();
         if ($query) {
             $response = new ResponseMsg("200", "getUser", $query);
+            return response()->json(($response));
+        } else {
+            $response = new ResponseMsg("204", "No Content", null);
             return response()->json(($response));
         }
     }
@@ -70,6 +76,9 @@ class UserInfoController extends Controller
         if ($query) {
             $response = new ResponseMsg("200", "Updated", $query);
             return response()->json(($response));
+        } else {
+            $response = new ResponseMsg("503", "User is not exist", null);
+            return response()->json(($response));
         }
     }
 
@@ -83,30 +92,12 @@ class UserInfoController extends Controller
         if ($query) {
             $response = new ResponseMsg("200", "Deleted", $query);
             return response()->json(($response));
+        } else {
+            $response = new ResponseMsg("503", "User is not exist", null);
+            return response()->json(($response));
         }
     }
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    // public function show(UserInfo $userInfo)
-    // {
-    //     //
-    // }
-
-    // /**
-    //  * Show the form for editing the specified resource.
-    //  */
-    // public function edit(UserInfo $userInfo)
-    // {
-    //     //
-
-    // }
 }
