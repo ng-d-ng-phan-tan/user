@@ -26,16 +26,16 @@
         return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
     }
     $id = GUID();
-    echo $id;
+    // echo $id;
     ?>
     <div class="container">
         <div class="row">
-            <form method="post" action="/crud/update" class="d-flex w-100 row">
+            <form method="post" action="/api/add" class="d-flex w-100 row">
                 @csrf
                 <div class="form-group col-6">
                     <label for="id">ID</label>
-                    <!-- <input type="text" class="form-control" name="user_id" value="<?php echo $id ?>"> -->
-                    <input type="text" class="form-control" name="user_id" value="3b015c4f-1a95-4ab5-b794-cf00cb01c34d">
+                    <input type="text" class="form-control" name="user_id" value="<?php echo $id ?>">
+                    <!-- <input type="text" class="form-control" name="user_id" value="3b015c4f-1a95-4ab5-b794-cf00cb01c34d"> -->
                 </div>
                 <div class="form-group col-6">
                     <label for="name">Name</label>
@@ -72,6 +72,10 @@
     </div>
     <script src="" async defer></script>
 </body>
+
+
+
+
 
 
 

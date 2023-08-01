@@ -21,13 +21,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::post('/test', function () {
-    $response = new ResponseMsg("200", "test ok", "");
-    return response()->json(($response));
+Route::get('/test', function () {
+    return "ok";
 });
 
-Route::post('/crud', [UserInfoController::class, 'index']);
-Route::post('/crud/add', [UserInfoController::class, 'create']);
-Route::post('/crud/update', [UserInfoController::class, 'update']);
-Route::post('/crud/delete', [UserInfoController::class, 'delete']);
-Route::post('/crud/getUser', [UserInfoController::class, 'getUser']);
+Route::get('', function () {
+    return view('crud');
+});
+
+Route::post('/add', [UserInfoController::class, 'create']);
+
+
+Route::post('/update', [UserInfoController::class, 'update']);
+Route::post('/delete', [UserInfoController::class, 'delete']);
+Route::post('/getUser', [UserInfoController::class, 'getUser']);
