@@ -22,7 +22,7 @@ class UserInfoController extends Controller
 
     public function test(Request $request)
     {
-        // echo ($request->flash());
+        echo ($request->flash());
 
         // print_r($request->all());
     }
@@ -36,18 +36,30 @@ class UserInfoController extends Controller
             'user_id' => $request->input('user_id'),
             'name' => $request->input('name'),
             'email' => $request->input('email'),
+            'avatar' => $request->input('avatar'),
+            'gender' => $request->input('gender') == 'on',
+            'date_of_birth' => $request->input('dateOfBirth'),
+            'receive_notify_email' => $request->input('receiveNotify') == 'on',
+            'role' => $request->input('roleID'),
+        ]);
+
+        if ($query) {
+            $response = new ResponseMsg("201", "Created", $request->input());
+            return response()->json(($response));
+        } else {
+            $response = new ResponseMsg("503", "Service Unavailable", null);
+            return response()->json(($response));
+        }
+    }
+
+    public function register(Request $request)
+    {
+        $query =  DB::table($this->table)->insert([
+            'user_id' => $request->input('user_id'),
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
             'role' => $request->input('role'),
         ]);
-        // $query =  DB::table($this->table)->insert([
-        //     'user_id' => $request->input('user_id'),
-        //     'name' => $request->input('name'),
-        //     'email' => $request->input('email'),
-        //     'avatar' => $request->input('avatar'),
-        //     'gender' => $request->input('gender') == 'on',
-        //     'date_of_birth' => $request->input('dateOfBirth'),
-        //     'receive_notify_email' => $request->input('receiveNotify') == 'on',
-        //     'role' => $request->input('roleID'),
-        // ]);
 
         if ($query) {
             $response = new ResponseMsg("201", "Created", $request->input());

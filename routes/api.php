@@ -31,6 +31,8 @@ Route::get('', function () {
 
 Route::post('/add', [UserInfoController::class, 'create']);
 
+Route::post('/register', [UserInfoController::class, 'register']);
+
 
 Route::post('/update', [UserInfoController::class, 'update']);
 Route::post('/delete', [UserInfoController::class, 'delete']);
