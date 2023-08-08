@@ -35,5 +35,11 @@ Route::post('/register', [UserInfoController::class, 'register']);
 
 
 Route::post('/update', [UserInfoController::class, 'update']);
+Route::post('/updateDevice_Token', [UserInfoController::class, 'updateDevice_Token']);
+
+
 Route::post('/delete', [UserInfoController::class, 'delete']);
+
 Route::post('/getUser', [UserInfoController::class, 'getUser']);
+Route::post('/getUsers', [UserInfoController::class, 'getUsers']);
+Route::post('/getUsersPaging', [UserInfoController::class, 'getUsersPaging']);
