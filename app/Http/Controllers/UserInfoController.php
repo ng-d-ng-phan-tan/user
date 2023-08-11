@@ -100,7 +100,7 @@ class UserInfoController extends Controller
     }
 
     public function getUsersPaging(Request $request){
-        $query = DB::table($this->table)->paginate(10);
+        $query = DB::table($this->table)->paginate(15);
         if ($query) {
             $response = new ResponseMsg("200", "User per page", $query);
             return response()->json(($response));
