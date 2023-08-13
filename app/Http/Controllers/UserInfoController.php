@@ -7,6 +7,7 @@ use App\Models\UserInfo;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class UserInfoController extends Controller
 {
@@ -100,9 +101,16 @@ class UserInfoController extends Controller
     }
 
     public function getUsersPaging(Request $request){
-        $query = DB::table($this->table)->paginate(15);
+        $query = DB::table($this->table);
         if ($query) {
-            $response = new ResponseMsg("200", "User per page", $query);
+            if ($request->input('isAdmin') != 'on'){
+                $query = $query->where('delete_at', '=', null);
+            }
+
+            if ($request->has('searchName') && $request->input('searchName') != ''){
+                $query = $query->where('name', '=', $request->input('searchName'));
+            }
+            $response = new ResponseMsg("200", "User per page", $query->paginate(15));
             return response()->json(($response));
         } else {
             $response = new ResponseMsg("204", "No Content", null);
@@ -120,7 +128,7 @@ class UserInfoController extends Controller
             // 'email' => $request->input('email'),
             'avatar' => $request->input('avatar'),
             'gender' => $request->input('gender') == 'on',
-            'date_of_birth' => $request->input('dateOfBirth'),
+            'date_of_birth' => $request->input('date_of_birth'),
             'receive_notify_email' => $request->input('receiveNotify') == 'on',
             'role' => $request->input('role'),
             'device_token' => $request->has('device_token') ?  $request->input('device_token') : '',
@@ -158,7 +166,9 @@ class UserInfoController extends Controller
     public function delete(Request $request)
     {
         //
-        $query = DB::table($this->table)->where('user_id', '=', $request->input('user_id'))->delete();
+        $query = DB::table($this->table)->where('user_id', '=', $request->input('user_id'))->update([
+            'delete_at' => Carbon::now('Asia/Ho_Chi_Minh')->toDateTimeString(),
+        ]);
         if ($query) {
             $response = new ResponseMsg("200", "Deleted", $query);
             return response()->json(($response));
@@ -172,4 +182,15 @@ class UserInfoController extends Controller
      * Store a newly created resource in storage.
      */
     
+    
+    // public function searchUser(Request $request){
+    //     $query = DB::table($this->table)->where('name', '=', $request->input('name'))->get();
+    //     if ($query) {
+    //         $response = new ResponseMsg("200", "Search Result", $query);
+    //         return response()->json(($response));
+    //     } else {
+    //         $response = new ResponseMsg("503", "User is not exist", null);
+    //         return response()->json(($response));
+    //     }
+    // }
 }

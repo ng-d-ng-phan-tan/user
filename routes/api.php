@@ -41,5 +41,7 @@ Route::post('/updateDevice_Token', [UserInfoController::class, 'updateDevice_Tok
 Route::post('/delete', [UserInfoController::class, 'delete']);
 
 Route::post('/getUser', [UserInfoController::class, 'getUser']);
+// Route::post('/searchUser', [UserInfoController::class, 'searchUser']);
+
 Route::post('/getUsers', [UserInfoController::class, 'getUsers']);
 Route::post('/getUsersPaging', [UserInfoController::class, 'getUsersPaging']);
