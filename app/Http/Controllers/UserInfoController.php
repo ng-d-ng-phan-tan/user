@@ -110,7 +110,7 @@ class UserInfoController extends Controller
         $query = DB::table($this->table);
         if ($query) {
             if ($request->input('isAdmin') != 'on'){
-                $query = $query->where('delete_at', '<>', null);
+                $query = $query->where('delete_at', '=', null);
             }
 
             if ($request->has('searchName') && $request->input('searchName') != ''){
