@@ -33,6 +33,12 @@ class UserInfoController extends Controller
     public function create(Request $request)
     {
         //
+        $isExist = DB::table($this->table)->where('email', $request->input('email'))->exists();
+        if ($isExist != null){
+            $response = new ResponseMsg("503", "Service Unavailable", "Email is existed");
+            return response()->json(($response));
+        }
+
         $query =  DB::table($this->table)->insert([
             'user_id' => $request->input('user_id'),
             'name' => $request->input('name'),
@@ -104,7 +110,7 @@ class UserInfoController extends Controller
         $query = DB::table($this->table);
         if ($query) {
             if ($request->input('isAdmin') != 'on'){
-                $query = $query->where('delete_at', '=', null);
+                $query = $query->where('delete_at', '<>', null);
             }
 
             if ($request->has('searchName') && $request->input('searchName') != ''){
