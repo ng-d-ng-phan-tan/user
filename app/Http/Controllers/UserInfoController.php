@@ -199,4 +199,15 @@ class UserInfoController extends Controller
     //         return response()->json(($response));
     //     }
     // }
+
+    public function getCount(){
+            $query = DB::table($this->table)->count();
+        if ($query) {
+            $response = new ResponseMsg("200", "Count", $query);
+            return response()->json(($response));
+        } else {
+            $response = new ResponseMsg("503", "", null);
+            return response()->json(($response));
+        }
+    }
 }
