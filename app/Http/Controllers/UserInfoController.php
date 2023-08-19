@@ -8,10 +8,72 @@ use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Elasticsearch\ClientBuilder;
 
 class UserInfoController extends Controller
 {
     public $table = "public.UserInfo";
+    // Elasticsearch PHP client
+    protected $elasticsearch;
+    // Elastica client
+    protected $elastica;
+    // Elastica index
+    protected $elasticIndex;    
+    
+    public function __construct()
+    {
+        $this->elasticsearch = ClientBuilder::create()
+            ->setHosts(config('database.connections.elasticsearch.hosts'))
+            ->setBasicAuthentication('oMbvJYsWP4', 'c7CjNfwRXGiz2xDUt65dBg')
+            ->build();
+    }
+
+    public function searchUserByName(Request $request)
+    {
+        try {
+
+            if ($request->input('name')) {
+                $name = $request->input('name');
+            } else {
+                return response()->json([
+                    'message' => 'Please enter name to search'
+                ], 400);
+            }
+
+            $offset = $request->input('name') != "" ? max(0, intval($request->input('name'))) : 0;
+            $limit = $request->input('limit') != "" ? max(1, intval($request->input('limit'))) : 10;
+            
+            $params = [
+                'index' => 'users',
+                'body' => [
+                    'query' => [
+                        'match' => [
+                            'name' => $name
+                        ]
+                    ]
+                ],
+                'from' => $offset,
+                'size' => $limit
+            ];
+            
+            $response = $this->elasticsearch->search($params);
+            $hits = $response['hits']['hits'];
+            $users = [];
+            foreach ($hits as $hit) {
+                $users[] = $hit['_source'];
+            }
+            return response()->json([
+                'users' => $users,
+                'total' => $response['hits']['total']['value'],
+                'message' => 'Search successfully'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
     /**
      * Display a listing of the resource.
      */

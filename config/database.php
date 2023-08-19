@@ -92,7 +92,11 @@ return [
             // 'encrypt' => env('DB_ENCRYPT', 'yes'),
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
-
+        'elasticsearch' => [
+            'hosts' => [
+                'https://oMbvJYsWP4:c7CjNfwRXGiz2xDUt65dBg@hcmus-search-2433627861.us-east-1.bonsaisearch.net:443',
+            ],
+        ],
     ],
 
     /*
