@@ -275,4 +275,16 @@ class UserInfoController extends Controller
             return response()->json(($response));
         }
     }
+
+    public function getLstReceiveEmail(Request $request){
+        $query = DB::table($this->table)->where('receive_notify_email', '=', false)->get();
+
+    if ($query) {
+        $response = new ResponseMsg("200", "List users allow receive email", $query);
+        return response()->json(($response));
+    } else {
+        $response = new ResponseMsg("503", "", null);
+        return response()->json(($response));
+    }
+}
 }
