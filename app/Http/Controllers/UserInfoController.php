@@ -197,12 +197,11 @@ class UserInfoController extends Controller
             'avatar' => $request->input('avatar'),
             'gender' => $request->input('gender') == 'on',
             'date_of_birth' => $request->input('date_of_birth'),
-            'receive_notify_email' => $request->input('receiveNotify') == 'on',
+            'receive_notify_email' => $request->input('receive_notify_email') == 'on',
             'role' => $request->input('role'),
             'device_token' => $request->has('device_token') ?  $request->input('device_token') : '',
             'about' => $request->has('about') ?  $request->input('about') : '',
             'address' => $request->has('address') ?  $request->input('address') : '',
-
         ]);
 
         if ($query) {
@@ -262,10 +261,14 @@ class UserInfoController extends Controller
     //     }
     // }
 
-    public function getCount(){
-            $query = DB::table($this->table)->count();
+    public function getCount(Request $request){
+            $query = DB::table($this->table);
+
         if ($query) {
-            $response = new ResponseMsg("200", "Count", $query);
+            if ($request->input('isAdmin') != 'on'){
+                $query = $query->where('delete_at', '=', null);
+            }
+            $response = new ResponseMsg("200", "Count", $query->count());
             return response()->json(($response));
         } else {
             $response = new ResponseMsg("503", "", null);
