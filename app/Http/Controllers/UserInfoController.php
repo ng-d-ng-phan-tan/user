@@ -41,7 +41,7 @@ class UserInfoController extends Controller
             }
 
             $offset = $request->input('name') != "" ? max(0, intval($request->input('name'))) : 0;
-            $limit = $request->input('limit') != "" ? max(1, intval($request->input('limit'))) : 10;
+            $limit = $request->input('limit') != "" ? max(1, intval($request->input('limit'))) : 15;
             
             $params = [
                 'index' => 'users',
