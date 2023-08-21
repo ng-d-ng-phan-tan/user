@@ -40,7 +40,7 @@ class UserInfoController extends Controller
                 ], 400);
             }
 
-            $offset = $request->input('name') != "" ? max(0, intval($request->input('name'))) : 0;
+            $offset = $request->input('offset') != "" ? max(0, intval($request->input('offset'))) : 0;
             $limit = $request->input('limit') != "" ? max(1, intval($request->input('limit'))) : 15;
             
             $params = [
@@ -129,7 +129,7 @@ class UserInfoController extends Controller
             'about' =>$request->has('about')? $request->input('about'):'',
             'address' =>$request->has('address')? $request->input('address'):'',
             'email' =>$request->has('email')? $request->input('email'):'',
-            'role' =>$request->has('role')? $request->input('role'):'',
+            'role' =>$request->has('role')? strtoupper($request->input('role')):'',
             'device_token' => $request->has('device_token') ?  $request->input('device_token') : '',
         ]);
 
@@ -198,7 +198,7 @@ class UserInfoController extends Controller
             'gender' => $request->input('gender') == 'on',
             'date_of_birth' => $request->input('date_of_birth'),
             'receive_notify_email' => $request->input('receive_notify_email') == 'on',
-            'role' => $request->input('role'),
+            'role' => strtoupper($request->input('role')),
             'device_token' => $request->has('device_token') ?  $request->input('device_token') : '',
             'about' => $request->has('about') ?  $request->input('about') : '',
             'address' => $request->has('address') ?  $request->input('address') : '',
