@@ -277,7 +277,7 @@ class UserInfoController extends Controller
     }
 
     public function getLstReceiveEmail(Request $request){
-        $query = DB::table($this->table)->where('receive_notify_email', '=', true)->get();
+        $query = DB::table($this->table)->where('receive_notify_email', '=', true)->where('role', '=', 'ADMIN')->get();
 
     if ($query) {
         $response = new ResponseMsg("200", "List users allow receive email", $query);
