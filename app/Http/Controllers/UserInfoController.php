@@ -287,4 +287,15 @@ class UserInfoController extends Controller
         return response()->json(($response));
     }
 }
+
+    public function getLstAdmin(Request $request){
+        $query = DB::table($this->table)->where('role', '=', 'ADMIN')->get();
+    if ($query) {
+        $response = new ResponseMsg("200", "List admin", $query);
+        return response()->json(($response));
+    } else {
+        $response = new ResponseMsg("503", "", null);
+        return response()->json(($response));
+    }
+}
 }

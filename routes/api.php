@@ -49,3 +49,4 @@ Route::post('/getUsersPaging', [UserInfoController::class, 'getUsersPaging']);
 Route::post('/getCount', [UserInfoController::class, 'getCount']);
 
 Route::post('/getLstReceiveEmail', [UserInfoController::class, 'getLstReceiveEmail']);
+Route::post('/getLstAdmin', [UserInfoController::class, 'getLstAdmin']);
